@@ -37,6 +37,7 @@ function collisions()
     bullet_collision();
     player_collision();
     player_falling();
+    player_ennemie_collision();
 }
 
 function bullet_collision()
@@ -60,7 +61,8 @@ function player_collision()
     //collision between player and walls
     var x = player1.graphic.position.x + WIDTH / 2;
     var y = player1.graphic.position.y + HEIGHT / 2;
-
+    if ( x < 0 )
+        player1.graphic.position.x -= x;
     if ( x > WIDTH )
         player1.graphic.position.x -= x - WIDTH;
     if ( y < 0 )
@@ -68,6 +70,22 @@ function player_collision()
     if ( y > HEIGHT )
         player1.graphic.position.y -= y - HEIGHT;
 
+}
+
+function player_ennemie_collision()
+{
+    var x = player1.graphic.position.x + WIDTH / 2;
+    var y = player1.graphic.position.y + HEIGHT / 2;
+    if (((y + 1) |(y - 1)) == ennemie1.graphic.position.y)
+    {
+        if (((x + 1) |(x - 1)) == ennemie1.graphic.position.x)
+        {
+            if (player1.life > 0)
+                player1.life -=1;
+            else
+                player1.dead();
+        }
+    }
 }
 
 function player_falling()
@@ -96,5 +114,6 @@ function player_falling()
            player1.dead();
         }
     }
+    return player1;
 
 }
